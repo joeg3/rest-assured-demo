@@ -7,9 +7,8 @@ import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.example.restdemo.dto.PostDTO;
+import org.example.restdemo.dto.TodoDTO;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
@@ -90,23 +89,23 @@ public class SpecTest {
 
         RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
 
-        PostDTO postDTO =
+        TodoDTO todoDTO =
                 given().
                         contentType("application/json").expect().defaultParser(Parser.JSON).
                         when().
                         get("/posts/1").
-                        as(PostDTO.class);
+                        as(TodoDTO.class);
         
         System.out.println("### GET WITH POJOS ###");
 
         System.out.println("### RESPONSE ###");
-        System.out.println(postDTO.toString());
+        System.out.println(todoDTO.toString());
 
         System.out.println("### POJO INDIVIDUAL VALUES ###");
-        System.out.println("id: " + postDTO.getId());
-        System.out.println("title: " + postDTO.getTitle());
-        System.out.println("body: " + postDTO.getBody());
-        System.out.println("userId: " + postDTO.getUserId());
+        System.out.println("id: " + todoDTO.getId());
+        System.out.println("title: " + todoDTO.getTitle());
+        System.out.println("completed: " + todoDTO.getCompleted());
+        System.out.println("userId: " + todoDTO.getUserId());
     }
 
     //@Test
