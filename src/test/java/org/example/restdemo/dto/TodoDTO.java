@@ -3,42 +3,46 @@ package org.example.restdemo.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PostDTO {
+public class TodoDTO {
 
     private int id;
     private String title;
-    private String body;
+    private Boolean completed;
     private int userId;
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public TodoDTO setId(int id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public TodoDTO setTitle(String title) {
         this.title = title;
+        return this;
     }
 
-    public String getBody() {
-        return body;
+    public Boolean getCompleted() {
+        return completed;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public TodoDTO setCompleted(Boolean completed) {
+        this.completed = completed;
+        return this;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public TodoDTO setUserId(int userId) {
         this.userId = userId;
+        return this;
     }
 }

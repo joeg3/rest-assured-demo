@@ -1,45 +1,49 @@
 package org.example;
 
-import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.example.restdemo.dto.PostDTO;
+import org.example.restdemo.dto.TodoDTO;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
+ * This shows how you can make requests with
+ * query parameters, or post parameters
+ *
  * This demo tests against the fake api at:
  * https://jsonplaceholder.typicode.com/
  */
-public class BasicTest {
+public class RequestExamplesTest {
+  private static RequestSpecification spec;
 
   @BeforeClass
-  public static void setBaseUri() {
-    RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+  public static void initSpec(){
+    spec = new RequestSpecBuilder()
+      .setContentType(ContentType.JSON)
+      .setBaseUri("https://jsonplaceholder.typicode.com")
+      .build();
   }
 
   @Test
-  public void getTodoById() {
+  public void getTodoByIdInPath() {
 
     Response response =
-      given().
-        contentType("application/json").
-        when().
-        get("/todos/1").
-        then().
-        statusCode(200).
-        contentType(ContentType.JSON).
-        body(("title"), equalTo("delectus aut autem")).
-        extract().response();
+      given()
+        .spec(spec)
+        .when()
+        .get("/todos/1")
+        .then()
+        .statusCode(200)
+        .contentType(ContentType.JSON)
+        .body(("title"), equalTo("delectus aut autem"))
+        .extract().response();
 
     // Can check status code here in response or above in then()
     assertThat(response.statusCode()).isEqualTo(200);
@@ -50,7 +54,7 @@ public class BasicTest {
     System.out.println("### RESPONSE BODY ###");
     System.out.println(response.getBody().asString());
 
-    System.out.println("### JSONPATH INDIVIDUAL VALUES ###");
+    System.out.println("### getTodoByIdInPath ###");
     JsonPath jsonPathResponse = new JsonPath(response.asString());
     System.out.println("id: " + jsonPathResponse.get("id"));
     System.out.println("title: " + jsonPathResponse.get("title"));
@@ -63,7 +67,7 @@ public class BasicTest {
 
     Response response =
       given()
-          .contentType(ContentType.JSON)
+        .spec(spec)
           .queryParam("title", "vero rerum temporibus dolor")
         .when()
           .get("/todos")
@@ -82,7 +86,7 @@ public class BasicTest {
 
     Response response =
       given()
-        .contentType(ContentType.JSON)
+        .spec(spec)
         .queryParam("id", 4)
         .when()
         .get("/todos")
@@ -101,47 +105,74 @@ public class BasicTest {
 
     Response response =
       given()
-        .contentType(ContentType.JSON)
+        .spec(spec)
         .pathParams("todoId", "4")
         .when()
         .get("/todos/{todoId}")
         .then()
         .statusCode(200)
         .contentType(ContentType.JSON)
-        .body(("title"), equalTo("et porro tempora")) // Unlike query param that returns array, path param returns single todo
+        .body(("title"), equalTo("et porro tempora")) // Unlike query param that returns array, path param returns single item
         .extract().response();
 
     System.out.println("### getTodoByIdWithPathParam ###");
     System.out.println(response.asString());
   }
 
-  //@Test
-  public void postExample() {
-
-    RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+  @Test
+  public void createTodoWithStringInBody() {
 
     Response response =
-      given().
-        contentType("application/json").
-        body("{ \"title\": \"foo\", \"body\": \"bar\", \"userId\": 1 }").
-        when().
-        post("/posts").
-        then().
-        statusCode(201).
-        //and.
-          body("title", equalTo("foo")).
-        extract().response();
+      given()
+        .spec(spec)
+        .body("{ \"title\": \"foo\", \"completed\": false, \"userId\": 1 }")
+        .when()
+        .post("/todos")
+        .then()
+        .statusCode(201)
+        .body("title", equalTo("foo"))
+        .extract().response();
 
     JsonPath jsonPathResponse = new JsonPath(response.asString());
-    System.out.println("### POST ###");
 
-    System.out.println("### RESPONSE ###");
+    System.out.println("### createTodoWithStringInBody ###");
     System.out.println(response.getBody().asString());
 
-    System.out.println("### JSONPATH INDIVIDUAL VALUES ###");
+    System.out.println("### createTodoWithStringInBody ###");
     System.out.println("id: " + jsonPathResponse.get("id"));
     System.out.println("title: " + jsonPathResponse.get("title"));
-    System.out.println("body: " + jsonPathResponse.get("body"));
+    System.out.println("completed: " + jsonPathResponse.get("completed"));
+    System.out.println("userId: " + jsonPathResponse.get("userId"));
+
+  }
+
+  @Test
+  public void createTodoWithPojoInBody() {
+    TodoDTO newTodo = new TodoDTO()
+      .setTitle("Walk dog")
+      .setCompleted(false)
+      .setUserId(1);
+
+    Response response =
+      given()
+        .spec(spec)
+        .body(newTodo)
+        .when()
+        .post("/todos")
+        .then()
+        .statusCode(201)
+        .body("title", equalTo("Walk dog"))
+        .extract().response();
+
+    JsonPath jsonPathResponse = new JsonPath(response.asString());
+
+    System.out.println("### createTodoWithPojoInBody ###");
+    System.out.println(response.getBody().asString());
+
+    System.out.println("### createTodoWithPojoInBody ###");
+    System.out.println("id: " + jsonPathResponse.get("id"));
+    System.out.println("title: " + jsonPathResponse.get("title"));
+    System.out.println("completed: " + jsonPathResponse.get("completed"));
     System.out.println("userId: " + jsonPathResponse.get("userId"));
 
   }
