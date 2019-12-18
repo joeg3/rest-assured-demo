@@ -42,9 +42,6 @@ public class WithoutRequestSpecificationTest {
         body(("title"), equalTo("delectus aut autem")).
         extract().response();
 
-    // Can check status code here in response or above in then()
-    assertThat(response.statusCode()).isEqualTo(200);
-
     System.out.println("### ENTIRE RESPONSE ###");
     System.out.println(response.asString());
 
