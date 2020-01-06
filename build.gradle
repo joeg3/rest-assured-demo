@@ -19,16 +19,25 @@ repositories {
 
 dependencies {
 
-    //compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
-    //compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
 
-
-    // Use JUnit test framework
     testImplementation 'io.rest-assured:rest-assured:4.1.2'
-    testImplementation 'io.rest-assured:json-path:4.1.2'
-    testImplementation 'io.rest-assured:xml-path:4.1.2'
-    testImplementation 'io.rest-assured:json-schema-validator:4.1.2'
+    //testImplementation 'io.rest-assured:json-schema-validator:4.1.2'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:3.14.0'
+
+}
+
+test {
+    // Get project properties
+    systemProperty "platform", "${platform}" // This picks up -Pplatform=test from command line
+    //systemProperty "platform", "test" // You can hardcode a property within build.gradle
+    //systemProperty "platform", findProperty("platform")
+    //systemProperties['platform'] = 'none'   // You can also set from inside gradle script
+
+    // Log test output
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
 
 }
