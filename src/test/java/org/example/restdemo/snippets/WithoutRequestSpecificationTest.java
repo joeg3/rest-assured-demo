@@ -1,4 +1,4 @@
-package org.example.restdemo;
+package org.example.restdemo.snippets;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -14,26 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * This is an example of running Rest Assured with a RequestSpecification
- * Generally you would want to do this so the setup code is in one place.
+ * This is an example of running Rest Assured without a RequestSpecification
+ * Generally you would not want to do this since you would have setup
+ * code in each testcase.
  *
  * This demo tests against the fake api at:
  * https://jsonplaceholder.typicode.com/
  */
-public class WithRequestSpecificationTest {
-  private static RequestSpecification spec;
+public class WithoutRequestSpecificationTest {
 
   @BeforeClass
-  public static void initSpec(){
-    spec = new RequestSpecBuilder()
-      .setContentType(ContentType.JSON)
-      .setBaseUri("https://jsonplaceholder.typicode.com")
-      // Here are some more options:
-      //   .addHeader("headerName","headerValue")
-      //   .addCookie(new Cookie.Builder("name", "value").setPath("...").setDomain("...").build())
-      //   .addFilter(new ResponseLoggingFilter()) // Log request and response for better debugging
-      //   .addFilter(new RequestLoggingFilter())  // You can also only log if a requests fails
-      .build();
+  public static void setBaseUri() {
+    RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
   }
 
   @Test
@@ -41,7 +33,7 @@ public class WithRequestSpecificationTest {
 
     Response response =
       given().
-        spec(spec).
+        contentType("application/json").
         when().
         get("/todos/1").
         then().

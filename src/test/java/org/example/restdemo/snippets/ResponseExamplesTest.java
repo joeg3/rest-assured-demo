@@ -1,15 +1,17 @@
-package org.example.restdemo;
+package org.example.restdemo.snippets;
 
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.example.restdemo.BaseTest;
 import org.example.restdemo.dto.TodoDTO;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,11 +28,8 @@ public class ResponseExamplesTest {
   private static RequestSpecification spec;
 
   @BeforeClass
-  public static void initSpec(){
-    spec = new RequestSpecBuilder()
-      .setContentType(ContentType.JSON)
-      .setBaseUri("https://jsonplaceholder.typicode.com")
-      .build();
+  public static void setUpBeforeClass() throws Exception{
+    BaseTest.setUpRequestSpec();
   }
 
   @Test
@@ -38,7 +37,7 @@ public class ResponseExamplesTest {
 
     Response response =
       given()
-        .spec(spec)
+        //.spec(spec)
         .when()
         .get("/todos/1")
         .then()
@@ -72,7 +71,7 @@ public class ResponseExamplesTest {
 
     JsonPath retrievedTodo =
       given()
-        .spec(spec)
+        //.spec(spec)
         .when()
         .get("/todos/1")
         .then()
@@ -94,7 +93,7 @@ public class ResponseExamplesTest {
 
     JsonPath retrievedTodos =
       given()
-        .spec(spec)
+        //.spec(spec)
         .queryParam("userId", 1)
         .when()
         .get("/todos")
@@ -111,7 +110,7 @@ public class ResponseExamplesTest {
 
     JsonPath retrievedTodo =
       given()
-        .spec(spec)
+        //.spec(spec)
         .when()
         .get("/todos/1")
         .then()
@@ -129,7 +128,7 @@ public class ResponseExamplesTest {
 
     TodoDTO retrievedTodo =
       given()
-        .spec(spec)
+        //.spec(spec)
         .when()
         .get("/todos/1")
         .then()
