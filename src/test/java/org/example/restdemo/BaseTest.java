@@ -3,9 +3,7 @@ package org.example.restdemo;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
-import org.junit.BeforeClass;
 
-import java.io.IOException;
 import java.util.Properties;
 
 public class BaseTest {

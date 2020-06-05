@@ -8,10 +8,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.example.restdemo.BaseTest;
 import org.example.restdemo.dto.TodoDTO;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.IOException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,13 +25,13 @@ import static org.hamcrest.Matchers.equalTo;
 public class ResponseExamplesTest {
   private static RequestSpecification spec;
 
-  @BeforeClass
-  public static void setUpBeforeClass() throws Exception{
+  @BeforeAll
+  static void setUpBeforeClass() throws Exception{
     BaseTest.setUpRequestSpec();
   }
 
   @Test
-  public void getResponse() {
+  void getResponse() {
 
     Response response =
       given()
@@ -67,7 +65,7 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void getJsonPathSingleEntity() {
+  void getJsonPathSingleEntity() {
 
     JsonPath retrievedTodo =
       given()
@@ -89,7 +87,7 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void getJsonPathMultipleEntities() {
+  void getJsonPathMultipleEntities() {
 
     JsonPath retrievedTodos =
       given()
@@ -106,7 +104,7 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void verifyResultsInRestAssuredCode() {
+  void verifyResultsInRestAssuredCode() {
 
     JsonPath retrievedTodo =
       given()
@@ -124,7 +122,7 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void getPojo() {
+  void getPojo() {
 
     TodoDTO retrievedTodo =
       given()

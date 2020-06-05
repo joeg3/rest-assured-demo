@@ -6,8 +6,8 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.example.restdemo.dto.TodoDTO;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static io.restassured.RestAssured.given;
@@ -23,8 +23,8 @@ import static org.hamcrest.Matchers.equalTo;
 public class RequestExamplesTest {
   private static RequestSpecification spec;
 
-  @BeforeClass
-  public static void initSpec(){
+  @BeforeAll
+  static void initSpec(){
     spec = new RequestSpecBuilder()
       .setContentType(ContentType.JSON)
       .setBaseUri("https://jsonplaceholder.typicode.com")
@@ -32,7 +32,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByIdInPath() {
+  void getTodoByIdInPath() {
 
     Response response =
       given()
@@ -60,7 +60,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByTitleWithQueryParam() {
+  void getTodoByTitleWithQueryParam() {
 
     Response response =
       given()
@@ -79,7 +79,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByIdWithQueryParam() {
+  void getTodoByIdWithQueryParam() {
 
     Response response =
       given()
@@ -98,7 +98,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByIdWithPathParam() {
+  void getTodoByIdWithPathParam() {
 
     Response response =
       given()
@@ -117,7 +117,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void createTodoWithStringInBody() {
+  void createTodoWithStringInBody() {
 
     Response response =
       given()
@@ -144,7 +144,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void createTodoWithPojoInBody() {
+  void createTodoWithPojoInBody() {
     TodoDTO newTodo = new TodoDTO()
       .setTitle("Walk dog")
       .setCompleted(false)
