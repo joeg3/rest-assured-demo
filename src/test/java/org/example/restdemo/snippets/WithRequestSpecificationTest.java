@@ -1,13 +1,13 @@
 package org.example.restdemo.snippets;
 
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import io.restassured.specification.ResponseSpecification;
+import org.example.restdemo.RestBaseTest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,27 +21,21 @@ import static org.hamcrest.Matchers.equalTo;
  * https://jsonplaceholder.typicode.com/
  */
 public class WithRequestSpecificationTest {
-  private static RequestSpecification spec;
+  private static  RequestSpecification reqSpec;
+  private static ResponseSpecification resSpec;
 
-  @BeforeClass
-  public static void initSpec(){
-    spec = new RequestSpecBuilder()
-      .setContentType(ContentType.JSON)
-      .setBaseUri("https://jsonplaceholder.typicode.com")
-      // Here are some more options:
-      //   .addHeader("headerName","headerValue")
-      //   .addCookie(new Cookie.Builder("name", "value").setPath("...").setDomain("...").build())
-      //   .addFilter(new ResponseLoggingFilter()) // Log request and response for better debugging
-      //   .addFilter(new RequestLoggingFilter())  // You can also only log if a requests fails
-      .build();
+  @BeforeAll
+  static void beforeAllTests() {
+    reqSpec = RestBaseTest.createRequestSpec();
+    resSpec = RestBaseTest.createResponseSpec();
   }
 
   @Test
-  public void getTodoById() {
+  void getTodoById() {
 
     Response response =
       given().
-        spec(spec).
+        spec(reqSpec).
         when().
         get("/todos/1").
         then().

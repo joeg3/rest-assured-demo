@@ -1,16 +1,13 @@
 package org.example.restdemo.snippets;
 
 import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
@@ -23,13 +20,13 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class WithoutRequestSpecificationTest {
 
-  @BeforeClass
-  public static void setBaseUri() {
+  @BeforeAll
+  static void setBaseUri() {
     RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
   }
 
   @Test
-  public void getTodoById() {
+  void getTodoById() {
 
     Response response =
       given().

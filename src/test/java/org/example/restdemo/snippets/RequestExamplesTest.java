@@ -1,42 +1,39 @@
 package org.example.restdemo.snippets;
 
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
+import org.example.restdemo.RestBaseTest;
 import org.example.restdemo.dto.TodoDTO;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * This shows how you can make requests with
- * query parameters, or post parameters
+ * This shows how you can make requests with query parameters, or post parameters
  *
- * This demo tests against the fake api at:
- * https://jsonplaceholder.typicode.com/
+ * This demo tests against the fake api at: https://jsonplaceholder.typicode.com/
  */
 public class RequestExamplesTest {
-  private static RequestSpecification spec;
+  private static  RequestSpecification reqSpec;
+  private static ResponseSpecification resSpec;
 
-  @BeforeClass
-  public static void initSpec(){
-    spec = new RequestSpecBuilder()
-      .setContentType(ContentType.JSON)
-      .setBaseUri("https://jsonplaceholder.typicode.com")
-      .build();
+  @BeforeAll
+  static void beforeAllTests() {
+    reqSpec = RestBaseTest.createRequestSpec();
+    resSpec = RestBaseTest.createResponseSpec();
   }
 
   @Test
-  public void getTodoByIdInPath() {
+  void getTodoByIdInPath() {
 
     Response response =
       given()
-        .spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -60,11 +57,11 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByTitleWithQueryParam() {
+  void getTodoByTitleWithQueryParam() {
 
     Response response =
       given()
-        .spec(spec)
+        .spec(reqSpec)
           .queryParam("title", "vero rerum temporibus dolor")
         .when()
           .get("/todos")
@@ -79,11 +76,11 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByIdWithQueryParam() {
+  void getTodoByIdWithQueryParam() {
 
     Response response =
       given()
-        .spec(spec)
+        .spec(reqSpec)
         .queryParam("id", 4)
         .when()
         .get("/todos")
@@ -98,11 +95,11 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void getTodoByIdWithPathParam() {
+  void getTodoByIdWithPathParam() {
 
     Response response =
       given()
-        .spec(spec)
+        .spec(reqSpec)
         .pathParams("todoId", "4")
         .when()
         .get("/todos/{todoId}")
@@ -117,11 +114,11 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void createTodoWithStringInBody() {
+  void createTodoWithStringInBody() {
 
     Response response =
       given()
-        .spec(spec)
+        .spec(reqSpec)
         .body("{ \"title\": \"foo\", \"completed\": false, \"userId\": 1 }")
         .when()
         .post("/todos")
@@ -144,7 +141,7 @@ public class RequestExamplesTest {
   }
 
   @Test
-  public void createTodoWithPojoInBody() {
+  void createTodoWithPojoInBody() {
     TodoDTO newTodo = new TodoDTO()
       .setTitle("Walk dog")
       .setCompleted(false)
@@ -152,7 +149,7 @@ public class RequestExamplesTest {
 
     Response response =
       given()
-        .spec(spec)
+        .spec(reqSpec)
         .body(newTodo)
         .when()
         .post("/todos")

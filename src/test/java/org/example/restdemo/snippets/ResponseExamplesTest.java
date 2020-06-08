@@ -6,12 +6,11 @@ import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.example.restdemo.BaseTest;
+import io.restassured.specification.ResponseSpecification;
+import org.example.restdemo.RestBaseTest;
 import org.example.restdemo.dto.TodoDTO;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.IOException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,19 +24,21 @@ import static org.hamcrest.Matchers.equalTo;
  * https://jsonplaceholder.typicode.com/
  */
 public class ResponseExamplesTest {
-  private static RequestSpecification spec;
+  private static  RequestSpecification reqSpec;
+  private static ResponseSpecification resSpec;
 
-  @BeforeClass
-  public static void setUpBeforeClass() throws Exception{
-    BaseTest.setUpRequestSpec();
+  @BeforeAll
+  static void beforeAllTests() {
+    reqSpec = RestBaseTest.createRequestSpec();
+    resSpec = RestBaseTest.createResponseSpec();
   }
 
   @Test
-  public void getResponse() {
+  void getResponse() {
 
     Response response =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -67,11 +68,11 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void getJsonPathSingleEntity() {
+  void getJsonPathSingleEntity() {
 
     JsonPath retrievedTodo =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -89,11 +90,11 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void getJsonPathMultipleEntities() {
+  void getJsonPathMultipleEntities() {
 
     JsonPath retrievedTodos =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .queryParam("userId", 1)
         .when()
         .get("/todos")
@@ -106,11 +107,11 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void verifyResultsInRestAssuredCode() {
+  void verifyResultsInRestAssuredCode() {
 
     JsonPath retrievedTodo =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -124,11 +125,11 @@ public class ResponseExamplesTest {
   }
 
   @Test
-  public void getPojo() {
+  void getPojo() {
 
     TodoDTO retrievedTodo =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
