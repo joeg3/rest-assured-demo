@@ -6,7 +6,8 @@ import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.example.restdemo.BaseTest;
+import io.restassured.specification.ResponseSpecification;
+import org.example.restdemo.RestBaseTest;
 import org.example.restdemo.dto.TodoDTO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,11 +24,13 @@ import static org.hamcrest.Matchers.equalTo;
  * https://jsonplaceholder.typicode.com/
  */
 public class ResponseExamplesTest {
-  private static RequestSpecification spec;
+  private static  RequestSpecification reqSpec;
+  private static ResponseSpecification resSpec;
 
   @BeforeAll
-  static void setUpBeforeClass() throws Exception{
-    BaseTest.setUpRequestSpec();
+  static void beforeAllTests() {
+    reqSpec = RestBaseTest.createRequestSpec();
+    resSpec = RestBaseTest.createResponseSpec();
   }
 
   @Test
@@ -35,7 +38,7 @@ public class ResponseExamplesTest {
 
     Response response =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -69,7 +72,7 @@ public class ResponseExamplesTest {
 
     JsonPath retrievedTodo =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -91,7 +94,7 @@ public class ResponseExamplesTest {
 
     JsonPath retrievedTodos =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .queryParam("userId", 1)
         .when()
         .get("/todos")
@@ -108,7 +111,7 @@ public class ResponseExamplesTest {
 
     JsonPath retrievedTodo =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()
@@ -126,7 +129,7 @@ public class ResponseExamplesTest {
 
     TodoDTO retrievedTodo =
       given()
-        //.spec(spec)
+        .spec(reqSpec)
         .when()
         .get("/todos/1")
         .then()

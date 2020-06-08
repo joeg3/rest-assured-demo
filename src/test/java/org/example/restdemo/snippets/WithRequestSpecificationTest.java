@@ -1,11 +1,11 @@
 package org.example.restdemo.snippets;
 
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
+import org.example.restdemo.RestBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,19 +21,13 @@ import static org.hamcrest.Matchers.equalTo;
  * https://jsonplaceholder.typicode.com/
  */
 public class WithRequestSpecificationTest {
-  private static RequestSpecification spec;
+  private static  RequestSpecification reqSpec;
+  private static ResponseSpecification resSpec;
 
   @BeforeAll
-  static void initSpec(){
-    spec = new RequestSpecBuilder()
-      .setContentType(ContentType.JSON)
-      .setBaseUri("https://jsonplaceholder.typicode.com")
-      // Here are some more options:
-      //   .addHeader("headerName","headerValue")
-      //   .addCookie(new Cookie.Builder("name", "value").setPath("...").setDomain("...").build())
-      //   .addFilter(new ResponseLoggingFilter()) // Log request and response for better debugging
-      //   .addFilter(new RequestLoggingFilter())  // You can also only log if a requests fails
-      .build();
+  static void beforeAllTests() {
+    reqSpec = RestBaseTest.createRequestSpec();
+    resSpec = RestBaseTest.createResponseSpec();
   }
 
   @Test
@@ -41,7 +35,7 @@ public class WithRequestSpecificationTest {
 
     Response response =
       given().
-        spec(spec).
+        spec(reqSpec).
         when().
         get("/todos/1").
         then().
