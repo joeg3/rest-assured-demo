@@ -22,10 +22,6 @@ test {
         if (project.getProperty("platform") != "test" && project.getProperty("platform") != "staging") {
             throw new InvalidUserDataException("GRADLE ERROR: Platform Property is '" + project.getProperty("platform") + "', but should be 'staging' or 'test'");
         }
-        systemProperty "github.token", project.getProperty("github.token")
-        if (project.getProperty("github.token") == "my_placeholder" || project.getProperty("github.token") == "") {
-            throw new InvalidUserDataException("GRADLE ERROR: github.token Property is not set. Set in gradle.properties or with command line property");
-        }
     }
 
     dependsOn 'cleanTest' // Always run tests, even when nothing changed
