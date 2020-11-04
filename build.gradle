@@ -7,8 +7,7 @@ repositories {
 }
 
 dependencies {
-
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
 
     testImplementation 'io.rest-assured:rest-assured:4.3.0'
     testImplementation 'org.assertj:assertj-core:3.15.0'
@@ -22,10 +21,6 @@ test {
         systemProperty "platform", project.getProperty("platform")
         if (project.getProperty("platform") != "test" && project.getProperty("platform") != "staging") {
             throw new InvalidUserDataException("GRADLE ERROR: Platform Property is '" + project.getProperty("platform") + "', but should be 'staging' or 'test'");
-        }
-        systemProperty "github.token", project.getProperty("github.token")
-        if (project.getProperty("github.token") == "my_placeholder" || project.getProperty("github.token") == "") {
-            throw new InvalidUserDataException("GRADLE ERROR: github.token Property is not set. Set in gradle.properties or with command line property");
         }
     }
 
