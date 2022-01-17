@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1' // For serializing objects with rest assured
 
     testImplementation 'io.rest-assured:rest-assured:4.3.0'
     testImplementation 'org.assertj:assertj-core:3.15.0'

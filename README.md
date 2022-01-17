@@ -1,9 +1,5 @@
-# Demo of Rest Assured for testing REST and GraphWL APIs
-
+# Demo of Rest Assured for testing REST APIs
 - The REST demo tests against the fake api at: https://jsonplaceholder.typicode.com
-- The GraphQL demo tests against a GitHub account at https://api.github.com/graphql using a personal access token
-- To create a token: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
-- GitHub GraphQL API: https://developer.github.com/v4/
 
 ## To Create a Project Like This From Scratch
 - Install `gradle`.
