@@ -1,13 +1,10 @@
 package org.example.restdemo;
 
-import io.restassured.common.mapper.TypeRef;
+import io.restassured.http.ContentType;
 import org.example.restdemo.models.Todo;
-import org.hamcrest.core.Every;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,14 +20,17 @@ public class SerializedExamples {
     @Test
     void getAllTodos() {
         String endpoint = "https://jsonplaceholder.typicode.com/todos";
-        Todo [] todos = given().
-                when().
+        Todo [] todos =
+            given().
+                contentType(ContentType.JSON). // Specify request content type
+            when().
                 get(endpoint).
-                then().
-                assertThat().
+            then().
                 statusCode(200).
+                contentType(ContentType.JSON). // Two different ways to check content type
                 header("Content-Type", "application/json; charset=utf-8").
                 extract().as(Todo[].class);
+
         assertThat(todos, arrayWithSize(200));
         assertThat(todos[99].getId(), equalTo(100));
         assertThat(todos, not(emptyArray()));
@@ -41,9 +41,14 @@ public class SerializedExamples {
     void getOneTodo() {
         String endpoint = "https://jsonplaceholder.typicode.com/todos/2"; // This gets Todo with id = 2
         Todo expectedTodo = new Todo(2, 1, "quis ut nam facilis et officia qui", false);
-        Todo actualTodo = given().when().get(endpoint).then().
-                assertThat().
+        Todo actualTodo =
+            given().
+                contentType(ContentType.JSON). // Sending JSON data
+            when().
+                get(endpoint).
+            then().
                 statusCode(200).
+                contentType(ContentType.JSON). // Two different ways to check content type
                 header("Content-Type", "application/json; charset=utf-8").
                 extract().as(Todo.class);
 
@@ -57,9 +62,15 @@ public class SerializedExamples {
         Todo expectedTodo = new Todo();
         expectedTodo.setId(201);
 
-        Todo actualTodo = given().body(todoPayload).when().post(endpoint).then().
-                assertThat().
+        Todo actualTodo =
+            given().
+                //contentType(ContentType.JSON). // Sending JSON data
+                body(todoPayload).
+            when().
+                post(endpoint).
+            then().
                 statusCode(201).
+                contentType(ContentType.JSON). // Two different ways to check content type
                 header("Content-Type", "application/json; charset=utf-8").
                 extract().as(Todo.class);
 
@@ -69,13 +80,19 @@ public class SerializedExamples {
     @Test
     void updateTodo() {
         String endpoint = "https://jsonplaceholder.typicode.com/todos/2";
-        Todo expectedTodo = new Todo();
+        Todo expectedTodo = new Todo( 2, 1, "nap", true);
         expectedTodo.setId(2);
         Todo payloadTodo = new Todo( 2, 1, "nap", true);
 
-        Todo actualTodo = given().body(payloadTodo).when().put(endpoint).then().
-                assertThat().
+        Todo actualTodo =
+            given().
+                contentType(ContentType.JSON). // Sending JSON data
+                body(payloadTodo).
+            when().
+                put(endpoint).
+            then().
                 statusCode(200).
+                contentType(ContentType.JSON). // Two different ways to check content type
                 header("Content-Type", "application/json; charset=utf-8").
                 extract().as(Todo.class);
 
@@ -84,12 +101,17 @@ public class SerializedExamples {
 
     @Test
     void deleteTodo() {
-        String endpoint = "https://jsonplaceholder.typicode.com/todos/2";
+        String endpoint = "https://jsonplaceholder.typicode.com/todos/2"; // Delete id 2
         Todo expectedTodo = new Todo(); // API doesn't return any data for deletes
 
-        Todo actualTodo = given().when().delete(endpoint).then().
-                assertThat().
+        Todo actualTodo =
+            given().
+                contentType(ContentType.JSON). // Sending JSON data
+            when().
+                delete(endpoint).
+            then().
                 statusCode(200).
+                contentType(ContentType.JSON). // Two different ways to check content type
                 header("Content-Type", "application/json; charset=utf-8").
                 extract().as(Todo.class);
 

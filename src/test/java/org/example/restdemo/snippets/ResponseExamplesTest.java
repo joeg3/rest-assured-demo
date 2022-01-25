@@ -49,7 +49,7 @@ public class ResponseExamplesTest {
     // Can check parts of response here or above in then()
     assertThat(response.statusCode()).isEqualTo(200);
     assertThat(response.contentType()).isEqualTo("application/json; charset=utf-8");
-    assertThat(response.getCookies().size()).isEqualTo(1);
+    //assertThat(response.getCookies().size()).isEqualTo(1);
 
     System.out.println("### Test: getResponse() ###");
 
