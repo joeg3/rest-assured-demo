@@ -9,7 +9,7 @@ import io.restassured.specification.ResponseSpecification;
 import java.io.IOException;
 import java.util.Properties;
 
-public class RestBaseTest {
+public class BaseTest {
 
   // Platform property passed in and verified in Gradle
   public static final String PLATFORM = System.getProperty("platform");
@@ -54,5 +54,4 @@ public class RestBaseTest {
     BASE_URI = properties.getProperty(platform + ".base.uri");
     System.out.println("******************* " + BASE_URI);
   }
-
 }

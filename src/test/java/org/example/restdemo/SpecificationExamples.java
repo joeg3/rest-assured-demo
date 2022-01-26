@@ -29,7 +29,7 @@ public class SpecificationExamples {
      */
     @BeforeAll
     static void beforeAllTests() {
-        reqSpec = RestBaseTest.createRequestSpec();
+        reqSpec = BaseTest.createRequestSpec();
     }
 
     /**
@@ -41,7 +41,7 @@ public class SpecificationExamples {
      */
     @BeforeEach
     void beforeEachTest() {
-        resSpec = RestBaseTest.createResponseSpec();
+        resSpec = BaseTest.createResponseSpec();
     }
 
     @Test
@@ -134,6 +134,4 @@ public class SpecificationExamples {
         // But normally we would look at the response for confirmation of the delete
         // And we could also query for the id we just deleted to verify it's no longer there
     }
-
-
 }

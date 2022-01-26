@@ -117,6 +117,4 @@ public class SerializedExamples {
 
         assertThat(actualTodo, samePropertyValuesAs(expectedTodo));
     }
-
-
 }

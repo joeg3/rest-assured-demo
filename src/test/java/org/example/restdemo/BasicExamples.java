@@ -115,6 +115,4 @@ public class BasicExamples {
 
         // response.log().body(); // Print body of response to stdout
     }
-
-
 }

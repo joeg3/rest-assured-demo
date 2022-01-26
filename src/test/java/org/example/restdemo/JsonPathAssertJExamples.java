@@ -108,6 +108,4 @@ public class JsonPathAssertJExamples {
         // But normally we would look at the response for confirmation of the delete
         // And we could also query for the id we just deleted to verify it's no longer there
     }
-
-
 }
