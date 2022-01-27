@@ -9,7 +9,7 @@ import io.restassured.specification.ResponseSpecification;
 import java.io.IOException;
 import java.util.Properties;
 
-public class RestBaseTest {
+public class BaseTest {
 
   // Platform property passed in and verified in Gradle
   public static final String PLATFORM = System.getProperty("platform");
@@ -30,11 +30,6 @@ public class RestBaseTest {
     return new RequestSpecBuilder()
       .setContentType(ContentType.JSON)
       .setBaseUri(BASE_URI)
-      // Here are some more options:
-      //   .addHeader("headerName","headerValue")
-      //   .addCookie(new Cookie.Builder("name", "value").setPath("...").setDomain("...").build())
-      //   .addFilter(new ResponseLoggingFilter()) // Log request and response for better debugging
-      //   .addFilter(new RequestLoggingFilter())  // You can also only log if a requests fails
       .build();
   }
 
@@ -52,7 +47,5 @@ public class RestBaseTest {
     // Platform verified in Gradle, so we kow it's either 'test' or 'staging'
     String platform = PLATFORM.equals("test") ? "test" : "staging";
     BASE_URI = properties.getProperty(platform + ".base.uri");
-    System.out.println("******************* " + BASE_URI);
   }
-
 }
