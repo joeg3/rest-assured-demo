@@ -17,11 +17,17 @@ dependencies {
 
 test {
     useJUnitPlatform {
-        // Default value for properties in gradle.properties, or override on command line: -Pplatform=some_value
+        // If 'platform' property not specified, default value in gradle.properties will be used.
+        // Or override on command line: -Pplatform=some_value
         systemProperty "platform", project.getProperty("platform")
+
         if (project.getProperty("platform") != "test" && project.getProperty("platform") != "staging") {
             throw new InvalidUserDataException("GRADLE ERROR: Platform Property is '" + project.getProperty("platform") + "', but should be 'staging' or 'test'");
         }
+
+        println "##################################################"
+        println "  Starting Rest Assured Demo on platform: " + project.getProperty("platform")
+        println "##################################################"
     }
 
     dependsOn 'cleanTest' // Always run tests, even when nothing changed

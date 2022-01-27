@@ -26,6 +26,21 @@ public class HeaderAndParameterExamples {
     }
 
     @Test
+    void setHeaderValues() {
+        Headers headers =
+                given().
+                    header("headerName","headerValue").
+                    spec(reqSpec).
+                when().
+                    get("/todos/2").
+                then().
+                    spec(resSpec).
+                    extract().headers();
+
+        assertThat(headers.getValue("Content-Type")).isEqualTo("application/json; charset=utf-8");
+    }
+
+    @Test
     void checkHeaderValues() {
         Headers headers =
                 given().
